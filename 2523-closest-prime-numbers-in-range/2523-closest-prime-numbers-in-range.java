@@ -1,22 +1,22 @@
 class Solution {
     public int[] closestPrimes(int left, int right) {
-        boolean[] isNotPrime = new boolean[right + 1];
-        isNotPrime[0] = true;
-        isNotPrime[1] = true;
+        boolean[] isPrime = new boolean[right + 1];
 
-        for (int i = 2; i <= right; i++) {
-            if (!isNotPrime[i]) {
-                for (int j = i * 2; j <= right; j += i) {
-                    if (!isNotPrime[j]) {
-                        isNotPrime[j] = true;
-                    }
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+
+        for (int i = 2; i * i <= right; i++) {
+            if (isPrime[i]) {
+                for (int j = i * i; j <= right; j += i) {
+                    isPrime[j] = false;
                 }
             }
         }
 
         List<Integer> primes = new ArrayList<>();
         for (int i = left; i <= right; i++) {
-            if (!isNotPrime[i]) {
+            if (isPrime[i]) {
                 primes.add(i);
             }
         }
