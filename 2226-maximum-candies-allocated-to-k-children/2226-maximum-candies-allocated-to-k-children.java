@@ -5,31 +5,32 @@ class Solution {
             maxCandyPile = Math.max(maxCandyPile, candy);
         }
 
-        int left = 0;
+        int left = 1;
         int right = maxCandyPile;
+        int result = 0;
 
-        while (left < right) {
-            int mid = (left + right + 1) / 2;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
 
             if (canAllocateCandies(candies, mid, k)) {
-                left = mid;
+                result = mid;
+                left = mid + 1;
             } else {
                 right = mid - 1;
             }
         }
 
-        return left;
+        return result;
     }
 
     private boolean canAllocateCandies(int[] candies, int mid, long k) {
         long count = 0;
 
-        for (int i = 0; i < candies.length; i++) {
-            if (candies[i] >= mid) {
-                count += candies[i] / mid;
-            }
+        for (int candy : candies) {
+            count += candy / mid;
+            if (count >= k) return true;
         }
 
-        return count >= k;
+        return false;
     }
 }
